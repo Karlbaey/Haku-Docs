@@ -1,0 +1,18 @@
+{{ $docsHome := site.GetPage "section" "docs" }}
+{{ if and $docsHome (ne .RelPermalink $docsHome.RelPermalink) }}
+  <nav class="breadcrumbs" aria-label="面包屑" data-pagefind-ignore>
+    <ol class="breadcrumbs__list">
+      <li class="breadcrumbs__item">
+        <a href="{{ $docsHome.RelPermalink }}">{{ $docsHome.LinkTitle }}</a>
+      </li>
+      {{ range .Ancestors.Reverse }}
+        {{ if and (eq .Section "docs") (ne .RelPermalink $docsHome.RelPermalink) }}
+          <li class="breadcrumbs__item">
+            <a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+          </li>
+        {{ end }}
+      {{ end }}
+      <li class="breadcrumbs__item" aria-current="page">{{ .LinkTitle }}</li>
+    </ol>
+  </nav>
+{{ end }}

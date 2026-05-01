@@ -1,0 +1,55 @@
+{{ $baseURL := site.BaseURL }}
+{{ $hasAbsoluteBase := gt (len (findRE `^https?://` $baseURL)) 0 }}
+{{ if and $hasAbsoluteBase (eq .Section "docs") }}
+  {{ $description := .Params.description | default site.Params.description }}
+  {{ $article := dict
+    "@context" "https://schema.org"
+    "@type" "TechArticle"
+    "headline" .Title
+    "description" $description
+    "inLanguage" site.Language.Lang
+    "url" .Permalink
+  }}
+  {{ with .Date }}
+    {{ $article = merge $article (dict "datePublished" (.Format "2006-01-02T15:04:05Z07:00")) }}
+  {{ end }}
+  {{ with .Lastmod }}
+    {{ $article = merge $article (dict "dateModified" (.Format "2006-01-02T15:04:05Z07:00")) }}
+  {{ end }}
+  <script type="application/ld+json">
+    {{ $article | jsonify | safeJS }}
+  </script>
+  {{ $docsHome := site.GetPage "section" "docs" }}
+  {{ if $docsHome }}
+    {{ $scratch := newScratch }}
+    {{ $scratch.Set "crumbs" (slice $docsHome) }}
+    {{ range .Ancestors.Reverse }}
+      {{ if and (eq .Section "docs") (ne .RelPermalink $docsHome.RelPermalink) }}
+        {{ $scratch.Add "crumbs" (slice .) }}
+      {{ end }}
+    {{ end }}
+    {{ if ne .RelPermalink $docsHome.RelPermalink }}
+      {{ $scratch.Add "crumbs" (slice .) }}
+    {{ end }}
+    {{ $crumbs := $scratch.Get "crumbs" }}
+    {{ if gt (len $crumbs) 1 }}
+      {{ $items := slice }}
+      {{ range $index, $crumb := $crumbs }}
+        {{ $items = $items | append (dict
+          "@type" "ListItem"
+          "position" (add $index 1)
+          "name" $crumb.LinkTitle
+          "item" $crumb.Permalink
+        ) }}
+      {{ end }}
+      {{ $breadcrumbs := dict
+        "@context" "https://schema.org"
+        "@type" "BreadcrumbList"
+        "itemListElement" $items
+      }}
+      <script type="application/ld+json">
+        {{ $breadcrumbs | jsonify | safeJS }}
+      </script>
+    {{ end }}
+  {{ end }}
+{{ end }}

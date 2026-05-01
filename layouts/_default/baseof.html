@@ -4,6 +4,7 @@
     {{ partial "head.html" . }}
   </head>
   <body class="{{ if eq .Section `docs` }}page-docs{{ end }}">
+    <a class="skip-link" href="#main-content">跳到正文</a>
     {{ if eq .Section "docs" }}
       <button
         class="docs-nav-toggle"
@@ -18,6 +19,7 @@
           <span></span>
           <span></span>
         </span>
+        <span class="docs-nav-toggle__text">目录</span>
       </button>
     {{ end }}
 
@@ -30,10 +32,15 @@
             <a href="{{ .RelPermalink }}" class="{{ if eq $.Section `docs` }}is-active{{ end }}">文档</a>
           {{ end }}
         </nav>
+        {{ if site.Params.docs.search.enabled }}
+          <button class="search-trigger" type="button" data-search-open aria-haspopup="dialog" aria-label="搜索文档">
+            <span class="search-trigger__label">搜索文档</span>
+          </button>
+        {{ end }}
       </div>
     </header>
 
-    <main class="site-main">
+    <main id="main-content" class="site-main">
       {{ block "main" . }}{{ end }}
     </main>
 
@@ -43,8 +50,11 @@
       </div>
     </footer>
 
+    {{ partial "search-dialog.html" . }}
     {{ if eq .Section "docs" }}
       {{ partial "docs-nav-script.html" . }}
+      {{ partial "docs-toc-script.html" . }}
     {{ end }}
+    {{ partial "search-script.html" . }}
   </body>
 </html>

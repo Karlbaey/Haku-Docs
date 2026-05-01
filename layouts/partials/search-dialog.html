@@ -1,0 +1,28 @@
+{{ if site.Params.docs.search.enabled }}
+  <dialog
+    class="search-dialog"
+    data-search-dialog
+    data-search-script-path="{{ `pagefind/pagefind.js` | relURL }}"
+    data-search-bundle-path="{{ `pagefind/` | relURL }}"
+    data-search-base-url="{{ site.Home.RelPermalink }}"
+    aria-label="搜索文档"
+  >
+    <div class="search-dialog__panel" role="dialog" aria-modal="true">
+      <label class="search-input" for="site-search-input">
+        <input
+          id="site-search-input"
+          class="search-input__field"
+          type="search"
+          name="q"
+          autocomplete="off"
+          spellcheck="false"
+          placeholder="搜索文档"
+          aria-label="搜索文档"
+          data-search-input
+        >
+      </label>
+      <p class="search-dialog__status" data-search-status aria-live="polite"></p>
+      <div class="search-results" data-search-results></div>
+    </div>
+  </dialog>
+{{ end }}

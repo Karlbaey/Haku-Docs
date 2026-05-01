@@ -1,0 +1,11 @@
+{{ $toc := .TableOfContents }}
+{{ if and site.Params.docs.toc.enabled (ne (trim $toc " \n\r\t") "") }}
+  <aside class="docs-toc-shell" aria-label="页内目录" data-pagefind-ignore>
+    <div class="docs-toc">
+      <p class="docs-toc__title">页内目录</p>
+      <div class="docs-toc__body" data-docs-toc>
+        {{ $toc }}
+      </div>
+    </div>
+  </aside>
+{{ end }}

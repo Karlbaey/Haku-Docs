@@ -1,8 +1,41 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
+{{ $description := .Params.description | default site.Params.description }}
+{{ $baseURL := site.BaseURL }}
+{{ $hasAbsoluteBase := gt (len (findRE `^https?://` $baseURL)) 0 }}
+{{ $defaultImage := site.Params.seo.defaultImage }}
+{{ $shareImage := "" }}
+{{ if .Params.images }}
+  {{ $shareImage = index .Params.images 0 }}
+{{ else if $defaultImage }}
+  {{ $shareImage = $defaultImage }}
+{{ end }}
 <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} | {{ site.Title }}{{ end }}</title>
-<meta name="description" content="{{ .Params.description | default site.Params.description }}">
+<meta name="description" content="{{ $description }}">
+<meta property="og:site_name" content="{{ site.Title }}">
+<meta property="og:title" content="{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} | {{ site.Title }}{{ end }}">
+<meta property="og:description" content="{{ $description }}">
+<meta property="og:type" content="{{ if .IsHome }}website{{ else }}article{{ end }}">
+<meta property="og:locale" content="{{ site.Language.Locale | default `zh-CN` }}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} | {{ site.Title }}{{ end }}">
+<meta name="twitter:description" content="{{ $description }}">
+<meta name="theme-color" content="#faf7f1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#141414" media="(prefers-color-scheme: dark)">
+{{ if $hasAbsoluteBase }}
+  <link rel="canonical" href="{{ .Permalink }}">
+  <meta property="og:url" content="{{ .Permalink }}">
+  {{ with $shareImage }}
+    {{ $imageURL := . }}
+    {{ $isAbsoluteImage := gt (len (findRE `^https?://` .)) 0 }}
+    {{ if not $isAbsoluteImage }}
+      {{ $imageURL = absURL . }}
+    {{ end }}
+    <meta property="og:image" content="{{ $imageURL }}">
+    <meta name="twitter:image" content="{{ $imageURL }}">
+  {{ end }}
+{{ end }}
 {{ if eq .Section "docs" }}
   <script>
     (() => {
@@ -23,3 +56,4 @@
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700;800&display=swap" rel="stylesheet">
 {{ $css := resources.Get "css/global.css" | minify | fingerprint }}
 <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+{{ partial "structured-data.html" . }}

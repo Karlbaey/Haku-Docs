@@ -2,7 +2,7 @@
 title: "样式与主题定制"
 description: "通过 CSS 变量、字体配置和模板局部文件修改这套主题的外观。"
 date: 2026-05-01T01:40:00+08:00
-lastmod: 2026-05-01T01:40:00+08:00
+lastmod: 2026-05-01T13:40:00+08:00
 weight: 50
 ---
 
@@ -46,6 +46,8 @@ weight: 50
 
 这套站点里不要使用 `color-mix()`，直接定义明确的变量值更可控，也更符合当前项目约束。
 
+这次改版里，搜索弹层、焦点态、TOC 和按钮态也都遵循这个规则：先定义变量，再在组件选择器里引用。
+
 ## 字体入口
 
 字体通过 `layouts/partials/head.html` 引入，目前默认是：
@@ -87,6 +89,7 @@ weight: 50
 | 顶部导航结构 | `layouts/_default/baseof.html` |
 | 首页 Hero 区 | `layouts/_default/list.html` 和 `content/_index.md` |
 | 文档侧栏标题与列表 | `layouts/partials/docs-nav.html` |
+| 搜索弹层与结果列表 | `assets/js/search.js`、`assets/css/global.css` |
 | 全站色彩、间距、卡片、表格、代码块 | `assets/css/global.css` |
 
 先从变量层改，再动模板，通常是这套主题最省事的定制路径。

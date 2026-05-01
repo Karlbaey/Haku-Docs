@@ -4,6 +4,14 @@
       <p class="eyebrow">Hugo Documentation</p>
       <h1>{{ site.Title }}</h1>
       <p class="lead">{{ site.Params.description }}</p>
+      <div class="hero-actions" data-pagefind-ignore>
+        {{ with site.GetPage "section" "docs" }}
+          <a class="hero-action hero-action--primary" href="{{ .RelPermalink }}">开始阅读</a>
+        {{ end }}
+        {{ if site.Params.docs.search.enabled }}
+          <button class="hero-action hero-action--secondary" type="button" data-search-open>搜索文档</button>
+        {{ end }}
+      </div>
       <div class="prose">
         {{ .Content }}
       </div>
@@ -12,9 +20,9 @@
     {{ with site.GetPage "section" "docs" }}
       <section aria-labelledby="docs-overview-title">
         <p class="section-label">Docs</p>
-        <h2 id="docs-overview-title">文档目录</h2>
+        <h2 id="docs-overview-title">从章节开始</h2>
         <div class="doc-grid">
-          {{ range .RegularPagesRecursive.ByWeight }}
+          {{ range .Sections.ByWeight }}
             <a class="doc-card" href="{{ .RelPermalink }}">
               <h3>{{ .LinkTitle }}</h3>
               <p>{{ .Params.description | default (.Summary | plainify) }}</p>

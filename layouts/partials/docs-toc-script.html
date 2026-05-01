@@ -1,0 +1,4 @@
+{{ if site.Params.docs.toc.enabled }}
+  {{ $script := resources.Get "js/docs-toc.js" | minify | fingerprint }}
+  <script src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity }}" defer></script>
+{{ end }}

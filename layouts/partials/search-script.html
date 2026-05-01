@@ -1,0 +1,4 @@
+{{ if site.Params.docs.search.enabled }}
+  {{ $script := resources.Get "js/search.js" | minify | fingerprint }}
+  <script src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity }}" defer></script>
+{{ end }}

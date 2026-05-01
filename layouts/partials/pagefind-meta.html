@@ -1,0 +1,23 @@
+{{ $sectionTitle := "" }}
+{{ if eq .Section "docs" }}
+  {{ if .IsSection }}
+    {{ $sectionTitle = .LinkTitle }}
+  {{ else }}
+    {{ with .CurrentSection }}
+      {{ $sectionTitle = .LinkTitle }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+<div class="pagefind-meta" hidden aria-hidden="true" data-pagefind-ignore>
+  <span data-pagefind-meta="title">{{ .Title }}</span>
+  {{ with .Params.description }}
+    <span data-pagefind-meta="description">{{ . }}</span>
+  {{ end }}
+  {{ if $sectionTitle }}
+    <span data-pagefind-meta="section">{{ $sectionTitle }}</span>
+  {{ end }}
+  <span data-pagefind-meta="kind:{{ if .IsSection }}section{{ else }}page{{ end }}"></span>
+  {{ with .Lastmod }}
+    <span data-pagefind-meta="lastmod:{{ .Format `2006-01-02` }}"></span>
+  {{ end }}
+</div>

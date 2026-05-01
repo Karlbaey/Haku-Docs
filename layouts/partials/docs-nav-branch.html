@@ -1,0 +1,33 @@
+{{ $node := .node }}
+{{ $current := .current }}
+{{ $level := .level }}
+{{ $isActiveBranch := or (eq $current.RelPermalink $node.RelPermalink) (hasPrefix $current.RelPermalink $node.RelPermalink) }}
+{{ $hasChildren := or (gt (len $node.Sections) 0) (gt (len $node.RegularPages) 0) }}
+<li class="docs-nav__item{{ if gt $level 0 }} docs-nav__item--nested{{ end }}">
+  {{ if $hasChildren }}
+    <details class="docs-nav__group" {{ if $isActiveBranch }}open{{ end }}>
+      <summary class="docs-nav__summary">{{ $node.LinkTitle }}</summary>
+      <ul class="docs-nav__list docs-nav__list--nested">
+        <li class="docs-nav__item docs-nav__item--overview">
+          <a href="{{ $node.RelPermalink }}" class="docs-nav__link{{ if eq $current.RelPermalink $node.RelPermalink }} is-active{{ end }}">
+            概览
+          </a>
+        </li>
+        {{ range $node.RegularPages.ByWeight }}
+          <li class="docs-nav__item">
+            <a href="{{ .RelPermalink }}" class="docs-nav__link{{ if eq .RelPermalink $current.RelPermalink }} is-active{{ end }}">
+              {{ .LinkTitle }}
+            </a>
+          </li>
+        {{ end }}
+        {{ range $node.Sections.ByWeight }}
+          {{ partial "docs-nav-branch.html" (dict "node" . "current" $current "level" (add $level 1)) }}
+        {{ end }}
+      </ul>
+    </details>
+  {{ else }}
+    <a href="{{ $node.RelPermalink }}" class="docs-nav__link{{ if eq $current.RelPermalink $node.RelPermalink }} is-active{{ end }}">
+      {{ $node.LinkTitle }}
+    </a>
+  {{ end }}
+</li>

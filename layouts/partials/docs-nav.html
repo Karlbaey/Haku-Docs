@@ -2,18 +2,14 @@
 {{ with site.GetPage "section" "docs" }}
   <nav class="docs-nav" aria-label="文档目录">
     <p class="docs-nav__title">文档导航</p>
-    <ul class="docs-nav__list">
-      <li>
-        <a href="{{ .RelPermalink }}" class="{{ if eq .RelPermalink $current.RelPermalink }}is-active{{ end }}">
+    <ul class="docs-nav__list docs-nav__list--root">
+      <li class="docs-nav__item">
+        <a href="{{ .RelPermalink }}" class="docs-nav__link{{ if eq .RelPermalink $current.RelPermalink }} is-active{{ end }}">
           {{ .LinkTitle }}
         </a>
       </li>
-      {{ range .RegularPagesRecursive.ByWeight }}
-        <li>
-          <a href="{{ .RelPermalink }}" class="{{ if eq .RelPermalink $current.RelPermalink }}is-active{{ end }}">
-            {{ .LinkTitle }}
-          </a>
-        </li>
+      {{ range .Sections.ByWeight }}
+        {{ partial "docs-nav-branch.html" (dict "node" . "current" $current "level" 0) }}
       {{ end }}
     </ul>
   </nav>
