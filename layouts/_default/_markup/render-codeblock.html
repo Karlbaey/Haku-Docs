@@ -1,0 +1,7 @@
+{{ $result := transform.HighlightCodeBlock . }}
+<div class="code-frame">
+  {{ with .Type }}
+    <div class="code-frame__lang">{{ . }}</div>
+  {{ end }}
+  {{ $result.Wrapped }}
+</div>

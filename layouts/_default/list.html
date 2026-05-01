@@ -1,0 +1,44 @@
+{{ define "main" }}
+  {{ if .IsHome }}
+    <section class="hero">
+      <p class="eyebrow">Hugo Documentation</p>
+      <h1>{{ site.Title }}</h1>
+      <p class="lead">{{ site.Params.description }}</p>
+      <div class="prose">
+        {{ .Content }}
+      </div>
+    </section>
+
+    {{ with site.GetPage "section" "docs" }}
+      <section aria-labelledby="docs-overview-title">
+        <p class="section-label">Docs</p>
+        <h2 id="docs-overview-title">文档目录</h2>
+        <div class="doc-grid">
+          {{ range .RegularPagesRecursive.ByWeight }}
+            <a class="doc-card" href="{{ .RelPermalink }}">
+              <h3>{{ .LinkTitle }}</h3>
+              <p>{{ .Params.description | default (.Summary | plainify) }}</p>
+            </a>
+          {{ end }}
+        </div>
+      </section>
+    {{ end }}
+  {{ else }}
+    <section class="content-shell prose">
+      <p class="section-label">{{ .Section }}</p>
+      <h1>{{ .Title }}</h1>
+      {{ .Content }}
+
+      {{ if gt (len .Pages) 0 }}
+        <div class="page-list">
+          {{ range .Pages.ByWeight }}
+            <a class="doc-card" href="{{ .RelPermalink }}">
+              <h3>{{ .LinkTitle }}</h3>
+              <p>{{ .Params.description | default (.Summary | plainify) }}</p>
+            </a>
+          {{ end }}
+        </div>
+      {{ end }}
+    </section>
+  {{ end }}
+{{ end }}

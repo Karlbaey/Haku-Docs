@@ -1,0 +1,25 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} | {{ site.Title }}{{ end }}</title>
+<meta name="description" content="{{ .Params.description | default site.Params.description }}">
+{{ if eq .Section "docs" }}
+  <script>
+    (() => {
+      const storageKey = "haku-docs-nav-state";
+      const defaultState = window.matchMedia("(min-width: 1180px)").matches ? "open" : "closed";
+      let savedState = null;
+
+      try {
+        savedState = window.localStorage.getItem(storageKey);
+      } catch {}
+
+      document.documentElement.dataset.docsNav = savedState === "closed" ? "closed" : savedState === "open" ? "open" : defaultState;
+    })();
+  </script>
+{{ end }}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700;800&display=swap" rel="stylesheet">
+{{ $css := resources.Get "css/global.css" | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">

@@ -1,0 +1,20 @@
+{{ $current := . }}
+{{ with site.GetPage "section" "docs" }}
+  <nav class="docs-nav" aria-label="文档目录">
+    <p class="docs-nav__title">文档导航</p>
+    <ul class="docs-nav__list">
+      <li>
+        <a href="{{ .RelPermalink }}" class="{{ if eq .RelPermalink $current.RelPermalink }}is-active{{ end }}">
+          {{ .LinkTitle }}
+        </a>
+      </li>
+      {{ range .RegularPagesRecursive.ByWeight }}
+        <li>
+          <a href="{{ .RelPermalink }}" class="{{ if eq .RelPermalink $current.RelPermalink }}is-active{{ end }}">
+            {{ .LinkTitle }}
+          </a>
+        </li>
+      {{ end }}
+    </ul>
+  </nav>
+{{ end }}
