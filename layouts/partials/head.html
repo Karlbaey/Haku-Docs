@@ -54,6 +54,28 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700;800&display=swap" rel="stylesheet">
+{{ with site.Params.theme }}
+  {{ if or .light .dark }}
+    <style>
+      {{ with .light }}
+        :root {
+          {{ range $name, $value := . }}
+            --{{ $name }}: {{ $value | safeCSS }};
+          {{ end }}
+        }
+      {{ end }}
+      {{ with .dark }}
+        @media (prefers-color-scheme: dark) {
+          :root {
+            {{ range $name, $value := . }}
+              --{{ $name }}: {{ $value | safeCSS }};
+            {{ end }}
+          }
+        }
+      {{ end }}
+    </style>
+  {{ end }}
+{{ end }}
 {{ $css := resources.Get "css/global.css" | minify | fingerprint }}
 <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
 {{ partial "structured-data.html" . }}

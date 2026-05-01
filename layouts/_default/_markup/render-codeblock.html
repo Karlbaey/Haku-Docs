@@ -1,7 +1,15 @@
 {{ $result := transform.HighlightCodeBlock . }}
 <div class="code-frame">
-  {{ with .Type }}
-    <div class="code-frame__lang">{{ . }}</div>
-  {{ end }}
+  <div class="code-frame__header">
+    {{ with .Type }}
+      <div class="code-frame__lang">{{ . }}</div>
+    {{ else }}
+      <div class="code-frame__lang">CODE</div>
+    {{ end }}
+    <button class="code-copy-button" type="button" data-code-copy aria-label="复制代码">
+      <span class="code-copy-button__icon" aria-hidden="true">{{ readFile "assets/icons/copy.svg" | safeHTML }}</span>
+      <span class="code-copy-button__label" data-code-copy-label>复制</span>
+    </button>
+  </div>
   {{ $result.Wrapped }}
 </div>

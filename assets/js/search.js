@@ -58,6 +58,11 @@
             bundlePath,
           });
           await pagefind.init();
+
+          if (!input.value.trim()) {
+            setStatus(statusMessages.idle);
+          }
+
           return pagefind;
         })
         .catch((error) => {

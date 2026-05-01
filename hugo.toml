@@ -7,11 +7,35 @@ disableKinds = ["taxonomy", "term", "RSS"]
 hasCJKLanguage = true
 
 [params]
-description = "简洁、易读、轻量的 Hugo 文档站。"
-footer = "由 Hugo 驱动，主题自动跟随系统明暗模式。"
+description = ""
+footer = 'Powered by <a href="https://github.com/Karlbaey/Haku-Docs/" target="_blank" rel="noreferrer">Haku-Docs</a>'
+
+  [params.theme]
+    # 可选：覆盖 `assets/css/global.css` 中同名 CSS 变量，键名不要带 `--`
+    [params.theme.light]
+    accent = "#7e5d22"
+    accent-strong = "#5f4517"
+    quote-border = "#c09d69"
+    selection-bg = "#e8dbc5"
+    focus-ring = "#b8802a"
+    hero-button-text = "#fff8ef"
+    hero-button-bg = "#7e5d22"
+    hero-button-bg-hover = "#5f4517"
+    toc-marker = "#cfaf77"
+
+    [params.theme.dark]
+    accent = "#e4c687"
+    accent-strong = "#f1dba8"
+    quote-border = "#7e6740"
+    selection-bg = "#4e4028"
+    focus-ring = "#f1dba8"
+    hero-button-text = "#18120a"
+    hero-button-bg = "#e4c687"
+    hero-button-bg-hover = "#f1dba8"
+    toc-marker = "#e4c687"
 
   [params.docs]
-  editContentBaseURL = "https://github.com/<owner>/Haku-Docs/edit/main/content"
+  editContentBaseURL = "https://github.com/Karlbaey/Haku-Docs/edit/main/content"
 
     [params.docs.search]
     enabled = true

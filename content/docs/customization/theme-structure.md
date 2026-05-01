@@ -2,7 +2,7 @@
 title: "主题结构总览"
 description: "先理解目录结构、模板入口和页面路由，再动手扩展这个 Hugo 文档站。"
 date: 2026-05-01T01:25:00+08:00
-lastmod: 2026-05-01T15:10:00+08:00
+lastmod: 2026-05-01T17:20:00+08:00
 weight: 20
 ---
 
@@ -72,6 +72,8 @@ hasCJKLanguage = true
 - GitHub Pages 部署时由 `python scripts/build_docs.py --base-url <absolute-url>` 注入生产绝对 URL，这样 canonical 和 `og:url` 会在生产构建中自动变成正确地址。
 
 同一个配置文件里还保留了 `params.docs.editContentBaseURL`，默认使用 `https://github.com/<owner>/Haku-Docs/edit/main/content` 占位。公开发布前记得替换 `<owner>`。
+
+如果你只是想改站点主题色，现在也可以直接改 `hugo.toml` 里的 `params.theme.light` 和 `params.theme.dark`，它们会覆盖 `assets/css/global.css` 中的同名 CSS 变量，不需要先改模板。
 
 ## 推荐工作方式
 

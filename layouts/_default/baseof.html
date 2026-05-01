@@ -46,7 +46,7 @@
 
     <footer class="site-footer">
       <div class="site-footer__inner">
-        {{ site.Params.footer }}
+        {{ site.Params.footer | safeHTML }}
       </div>
     </footer>
 
@@ -55,6 +55,7 @@
       {{ partial "docs-nav-script.html" . }}
       {{ partial "docs-toc-script.html" . }}
     {{ end }}
+    {{ partial "code-copy-script.html" . }}
     {{ partial "search-script.html" . }}
   </body>
 </html>

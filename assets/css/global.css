@@ -575,6 +575,7 @@ html[data-docs-nav="closed"] .docs-sidebar-shell {
 .breadcrumbs__list {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 0.55rem;
   margin: 0;
   padding: 0;
@@ -587,6 +588,10 @@ html[data-docs-nav="closed"] .docs-sidebar-shell {
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
+}
+
+.breadcrumbs__item + .breadcrumbs__item {
+  margin-top: 0;
 }
 
 .breadcrumbs__item + .breadcrumbs__item::before {
@@ -723,13 +728,65 @@ html[data-docs-nav="closed"] .docs-sidebar-shell {
   background: var(--code-bg);
 }
 
-.code-frame__lang {
+.code-frame__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
   padding: 0.7rem 1rem 0;
+}
+
+.code-frame__lang {
   color: #8b949e;
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+}
+
+.code-copy-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.38rem;
+  padding: 0.36rem 0.58rem;
+  border: 1px solid #30363d;
+  border-radius: 0.7rem;
+  background: transparent;
+  color: #8b949e;
+  font: inherit;
+  font-size: 0.82rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 140ms ease, color 140ms ease, background-color 140ms ease;
+}
+
+.code-copy-button:hover {
+  border-color: #58a6ff;
+  color: #f0f6fc;
+  background: rgba(88, 166, 255, 0.12);
+}
+
+.code-copy-button[data-copy-state="success"] {
+  border-color: #3fb950;
+  color: #3fb950;
+  background: rgba(63, 185, 80, 0.12);
+}
+
+.code-copy-button[data-copy-state="error"] {
+  border-color: #f85149;
+  color: #f85149;
+  background: rgba(248, 81, 73, 0.12);
+}
+
+.code-copy-button__icon {
+  display: inline-flex;
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+.code-copy-button__icon svg {
+  width: 100%;
+  height: 100%;
 }
 
 .highlight,
